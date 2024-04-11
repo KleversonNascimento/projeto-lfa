@@ -1,19 +1,34 @@
 import random
 from automathon import DFA
 
+# imaginar a máquina vista de cima como um quadrado assim:
+# 1  2  3  4  5
+# 6  7  8  9  10
+# 11 12 13 14 15
+# 16 17 18 19 20
+# 21 22 23 24 25
+
+# posição 13 é definida como inicial da garra e 23 é definida como abertura para saída das pelúcias
+
+# definindo estados
 estados = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
           '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
           '21', '22', '23', '24', '25', '26'}
 
+# definindo alfabeto
 alfabeto = {'inserir credito', 'mover para esquerda', 'mover para direita',
             'mover para frente', 'mover para trás', 'descer garra'}
 
+# estado ao iniciar a máquina, sem créditos inseridos
 estado_inicial = '0'
 
+# posições fixas em que há ursinhos:
 possui_ursinho = ['5', '7', '24']
 
+# estado final no qual um ursinho é pego
 estados_finais = {'26'}
 
+# função para aleatorizar a chance de pegar um ursinho (50%)
 def randomize(number: str) -> str:
     n = random.randrange(0, 100)
     if n > 50:
@@ -51,6 +66,7 @@ transicoes_formato_lib = {
     '26': { 'mover para esquerda': '26', 'mover para direita': '26', 'mover para trás': '26', 'mover para frente': '26', 'descer garra': '26' , 'inserir credito': '13' },
 }
 
+# usa a função randomize para fazer com que o ursinho seja pego em 50% das vezes ao descer a garra na posição correta
 def preparar_transicoes(transicoes):
     for i in possui_ursinho:
         tr = transicoes.get(i)
@@ -59,6 +75,7 @@ def preparar_transicoes(transicoes):
 # criação do AFD
 automata = DFA(estados, alfabeto, transicoes_formato_lib, estado_inicial, estados_finais)
 
+# verifica se o AFD é válido
 print('O AFD é valido? ' + str(automata.is_valid()))
 
 # sequência para pegar um ursinho na posição 24 em 50% das vezes
