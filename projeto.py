@@ -63,7 +63,7 @@ transicoes_formato_lib = {
     '23': { 'mover para esquerda': '22', 'mover para direita': '24', 'mover para trás': '23', 'mover para frente': '18', 'descer garra': '0' , 'inserir credito': '23' },
     '24': { 'mover para esquerda': '23', 'mover para direita': '25', 'mover para trás': '24', 'mover para frente': '19', 'descer garra': '26' , 'inserir credito': '24' },
     '25': { 'mover para esquerda': '24', 'mover para direita': '25', 'mover para trás': '25', 'mover para frente': '20', 'descer garra': '0' , 'inserir credito': '25' },
-    '26': { 'mover para esquerda': '26', 'mover para direita': '26', 'mover para trás': '26', 'mover para frente': '26', 'descer garra': '26' , 'inserir credito': '13' },
+    '26': { 'mover para esquerda': '26', 'mover para direita': '26', 'mover para trás': '26', 'mover para frente': '26', 'descer garra': '26' , 'inserir credito': '26' },
 }
 
 # usa a função randomize para fazer com que o ursinho seja pego em 50% das vezes ao descer a garra na posição correta
