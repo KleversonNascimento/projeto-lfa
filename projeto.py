@@ -22,8 +22,18 @@ alfabeto = {'inserir credito', 'mover para esquerda', 'mover para direita',
 # estado ao iniciar a máquina, sem créditos inseridos
 estado_inicial = '0'
 
-# posições fixas em que há ursinhos:
-possui_ursinho = ['5', '7', '24']
+# flag para alternar entre colocar ursinhos nas posições fixas 5, 7 e 24 e colocar em posições aleatórias
+usar_ursinhos_em_posicao_fixa = True
+if usar_ursinhos_em_posicao_fixa:
+  # posições fixas em que há ursinhos:
+  possui_ursinho = ['5', '7', '24']
+else:
+  # função que randomiza a posição dos ursinhos
+  qtd_ursinho = 3
+  posicoes_excluidas = [23]
+  lista = set(range(1,26)) - set(posicoes_excluidas)
+  possui_ursinho = list(map(lambda x: str(x), random.sample(list(lista), qtd_ursinho)))
+  print("Os ursinhos estão nas posições: " + str(possui_ursinho))
 
 # estado final no qual um ursinho é pego
 estados_finais = {'26'}
@@ -35,9 +45,9 @@ transicoes_formato_lib = {
     '2': { 'mover para esquerda': '1', 'mover para direita': '3', 'mover para trás': '7', 'mover para frente': '2', 'descer garra': '0' , 'inserir credito': '2' },
     '3': { 'mover para esquerda': '2', 'mover para direita': '4', 'mover para trás': '8', 'mover para frente': '3', 'descer garra': '0' , 'inserir credito': '3' },
     '4': { 'mover para esquerda': '3', 'mover para direita': '5', 'mover para trás': '9', 'mover para frente': '4', 'descer garra': '0' , 'inserir credito': '4' },
-    '5': { 'mover para esquerda': '4', 'mover para direita': '5', 'mover para trás': '10', 'mover para frente': '5', 'descer garra': '26' , 'inserir credito': '5' },
+    '5': { 'mover para esquerda': '4', 'mover para direita': '5', 'mover para trás': '10', 'mover para frente': '5', 'descer garra': '0' , 'inserir credito': '5' },
     '6': { 'mover para esquerda': '6', 'mover para direita': '7', 'mover para trás': '11', 'mover para frente': '1', 'descer garra': '0' , 'inserir credito': '6' },
-    '7': { 'mover para esquerda': '6', 'mover para direita': '8', 'mover para trás': '12', 'mover para frente': '2', 'descer garra': '26' , 'inserir credito': '7' },
+    '7': { 'mover para esquerda': '6', 'mover para direita': '8', 'mover para trás': '12', 'mover para frente': '2', 'descer garra': '0' , 'inserir credito': '7' },
     '8': { 'mover para esquerda': '7', 'mover para direita': '9', 'mover para trás': '13', 'mover para frente': '3', 'descer garra': '0' , 'inserir credito': '8' },
     '9': { 'mover para esquerda': '8', 'mover para direita': '10', 'mover para trás': '14', 'mover para frente': '4', 'descer garra': '0' , 'inserir credito': '9' },
     '10': { 'mover para esquerda': '9', 'mover para direita': '10', 'mover para trás': '15', 'mover para frente': '5', 'descer garra': '0' , 'inserir credito': '10' },
@@ -54,7 +64,7 @@ transicoes_formato_lib = {
     '21': { 'mover para esquerda': '21', 'mover para direita': '22', 'mover para trás': '21', 'mover para frente': '16', 'descer garra': '0' , 'inserir credito': '21' },
     '22': { 'mover para esquerda': '21', 'mover para direita': '23', 'mover para trás': '22', 'mover para frente': '17', 'descer garra': '0' , 'inserir credito': '22' },
     '23': { 'mover para esquerda': '22', 'mover para direita': '24', 'mover para trás': '23', 'mover para frente': '18', 'descer garra': '0' , 'inserir credito': '23' },
-    '24': { 'mover para esquerda': '23', 'mover para direita': '25', 'mover para trás': '24', 'mover para frente': '19', 'descer garra': '26' , 'inserir credito': '24' },
+    '24': { 'mover para esquerda': '23', 'mover para direita': '25', 'mover para trás': '24', 'mover para frente': '19', 'descer garra': '0' , 'inserir credito': '24' },
     '25': { 'mover para esquerda': '24', 'mover para direita': '25', 'mover para trás': '25', 'mover para frente': '20', 'descer garra': '0' , 'inserir credito': '25' },
     '26': { 'mover para esquerda': '26', 'mover para direita': '26', 'mover para trás': '26', 'mover para frente': '26', 'descer garra': '26' , 'inserir credito': '26' },
 }
@@ -65,7 +75,7 @@ def randomize(number: str) -> str:
     if n > 50:
         return number
     return '26'
-          
+
 # usa a função randomize para fazer com que o ursinho seja pego em 50% das vezes ao descer a garra na posição correta
 def aplicar_fator_sorte(transicoes):
     for i in possui_ursinho:
@@ -79,10 +89,10 @@ automata = DFA(estados, alfabeto, transicoes_formato_lib, estado_inicial, estado
 # verifica se o AFD é válido
 print('O AFD é valido? ' + str(automata.is_valid()))
 
-# sequência para pegar um ursinho na posição 24 em 50% das vezes
+# sequência para pegar um ursinho na posição 24 em 50% das vezes (quando ursinhos estão nas posições fixas 5, 7 e 24)
 print('Tentativa de pegar um ursinho com a entrada [inserir credito, mover para direita, mover para trás, mover para trás, descer garra]: ' + str(automata.accept(['inserir credito', 'mover para direita', 'mover para trás', 'mover para trás', 'descer garra'])))
 
-# sequência para a posição 19 que não pega ursinho
+# sequência para a posição 19 que não pega ursinho (quando ursinhos estão nas posições fixas 5, 7 e 24)
 print('Tentativa de pegar um ursinho com a entrada [inserir credito, mover para direita, mover para direita, mover para trás, mover para esquerda, descer garra]: ' + str(automata.accept(['inserir credito', 'mover para direita', 'mover para direita', 'mover para trás', 'mover para esquerda', 'descer garra'])))
 
 # sequência sem inserir créditos que nunca pega ursinho
